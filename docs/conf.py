@@ -17,6 +17,8 @@ import sys
 import os
 import re
 
+on_rtd = os.getenv('READTHEDOCS') == 'True'
+
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
@@ -43,8 +45,10 @@ extensions = [
     'sphinx.ext.extlinks',
 ]
 
-
-extensions.append('sphinx.ext.napoleon')
+if on_rtd:
+  extensions.append('sphinxcontrib.napoleon')
+else:
+  extensions.append('sphinx.ext.napoleon')
 
 autodoc_member_order = 'bysource'
 
