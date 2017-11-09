@@ -4,14 +4,6 @@ Checkout the [documentation][doc].
 
 [doc]: http://whapy.readthedocs.io/
     
-## Installing
-
-To install the library just run the following command:
-
-```
-python3 -m pip install whapy
-```
-
 ## Quick Example
 ```py
 import whapy

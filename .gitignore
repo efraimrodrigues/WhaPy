@@ -3,3 +3,7 @@ docs/_static
 docs/_templates
 whapy/__pycache__
 geckodriver.log
+.pypirc
+whapy.egg-info
+.vscode
+dist
