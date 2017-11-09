@@ -6,6 +6,11 @@ API Reference
 WhaPy
 -------
 
+WhaPy is an Python API for whatsapp web. WhaPy listens to events from the app and dispatch them into beautiful coroutines.
+
+
+Moreover, WhaPy module provides classes for managing whatsapp chats and messages.
+
 .. autoclass:: WhaPy
     :members:
 
