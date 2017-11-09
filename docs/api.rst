@@ -26,10 +26,10 @@ This is an example of how to register an event: ::
     @asyncio.coroutine
     async def on_message(chat, messages):
         for i in range(0,len(messages)):
-        if not messages[i].isMedia():
-            print(messages[i].getContent())
-            if messages[i].getContent() == "@who":
-                chat.sendMessage("are you?")
+        if not messages[i].is_media():
+            print(messages[i].get_content())
+            if messages[i].get_content() == "@who":
+                chat.send_message("are you?")
 
 .. warning::
 
