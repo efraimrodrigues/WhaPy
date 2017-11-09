@@ -25,7 +25,7 @@ import re
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 sys.path.insert(0, os.path.abspath('..'))
-sys.path.insert(0, os.path.abspath('../whapy'))
+#sys.path.insert(0, os.path.abspath('../whapy'))
 
 
 # -- General configuration ------------------------------------------------
