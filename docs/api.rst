@@ -6,7 +6,7 @@ API Reference
 WhaPy
 -------
 
-WhaPy is an Python API for whatsapp web. WhaPy listens to events from the app and dispatch them into beautiful coroutines.
+WhaPy is a Python API for whatsapp. WhaPy listens to events from the app and dispatch them into beautiful coroutines.
 
 
 Moreover, WhaPy module provides classes for managing whatsapp chats and messages.
@@ -49,7 +49,7 @@ This is an example of how to register an event: ::
 
 .. function:: on_ready()
 
-    Called after scanning QR Code and Whatsapp page is ready. Chats and messages are filled up.
+    Called after scanning QR Code and whatsapp page is ready. Chats and messages are filled up.
 
 .. function:: on_message(chat, messages)
 

@@ -38,37 +38,37 @@ class Message:
     def _parseAction(self):
         return "Store.Msg.find('" + self.messageId + "')._value."
 
-    def getContent(self):
+    def get_content(self):
         """Returns the content of the message
         """
         return self.__driver.execute_script(self._parseQuery() + "__x_body")
 
-    def getAuthor(self):
+    def get_author(self):
         """Returns the author (contactId) of the message
         """
         return self.__driver.execute_script(self._parseQuery() + "author")
 
-    def getFrom(self):
+    def get_from(self):
         """Returns the author (contactId) of the message. If message was sent in a group, the author is the group chat id
         """
         return self.__driver.execute_script(self._parseQuery() + "__x_from")
 
-    def isGroupMessage(self):
+    def is_group_message(self):
         """Returns True if group message, False otherwise
         """
         return self.__driver.execute_script(self._parseQuery() + "__x_isGroupMsg")
 
-    def isLink(self):
+    def is_link(self):
         """Returns True if message is a link, False otherwise
         """
         return self.__driver.execute_script(self._parseQuery() + "__x_isLink")
     
-    def isMedia(self):
+    def is_media(self):
         """Returns True if message is a media, False otherwise
         """
         return self.__driver.execute_script(self._parseQuery() + "__x_isMedia")
 
-    def isQuotedMsg(self):
+    def is_quoted_msg(self):
         """Returns True if message is a quoted message, False otherwise
         """
         if self.__driver.execute_script(self._parseQuery() + "__x_quotedMsg"):
@@ -76,12 +76,12 @@ class Message:
         else:
             return False
     
-    def getQuotedMsg(self):
+    def get_quoted_msg(self):
         """Returns the actually quoted message
         """
         return self.__driver.execute_script(self._parseQuery() + "__x_quotedMsg")
 
-    def getQuotedParticipant(self):
+    def get_quoted_participant(self):
         """Returns the author (contact id) of the quoted message 
         """
         return self.__driver.execute_script(self._parseQuery() + "__x_quotedParticipant")

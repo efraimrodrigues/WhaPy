@@ -101,13 +101,13 @@ class WhaPy:
             yield from getattr(self, "on_ready")()
 
         while True:
-            hasUnread = False
+            has_unread = False
             try:
-                hasUnread = self.hasUnread()
+                has_unread = self.has_unread()
             except:
                 pass
 
-            if hasUnread:
+            if has_unread:
                 yield from self._parse_message()
 
     def run(self):
@@ -121,38 +121,38 @@ class WhaPy:
     #Parse message will get the first occurrency of a unread message, will return a Chat object and author's id
     @asyncio.coroutine
     def _parse_message(self):
-        unreadChat = Chat(self._driver, self.getUnreadChats()[0])
+        unread_chat = Chat(self._driver, self.get_unread_chats()[0])
         
         #It turns out chats are load with only one message and then more messages are loaded, so make it wait
-        if unreadChat.countUnread() >= unreadChat.countLoadedMsgs():
+        if unread_chat.count_unread() >= unread_chat.count_loaded_msgs():
             pass
         else:
-            unreadMessages = unreadChat.getLastNMessages(unreadChat.countUnread())
+            unread_messages = unread_chat.get_last_n_messages(unread_chat.count_unread())
 
             #This will process the chat as so it won't get here again because of the same messages
-            unreadChat.markSeen()
+            unread_chat.mark_seen()
 
-            yield from getattr(self, "on_message")(unreadChat, unreadMessages)
+            yield from getattr(self, "on_message")(unread_chat, unread_messages)
 
-    def hasUnread(self):
+    def has_unread(self):
         """Returns True whenever there are unread messages
         """
         script = open(os.path.join(self.script_path, "js/hasUnread.js"), "r").read()
         return self._driver.execute_script(script)
 
-    def getUnreadChats(self):
+    def get_unread_chats(self):
         """Returns an array of unread chats' id
         """
         script = open(os.path.join(self.script_path, "js/getUnreadChats.js"), "r").read()
         return self._driver.execute_script(script)
 
-    def getChatsId(self):
+    def get_chats_id(self):
         """Returns an array of all chats' id. Use instantiateChat to have access to :class:`Chat` methods
         """
         script = open(os.path.join(self.script_path, "js/getChats.js"), "r").read()
         return self._driver.execute_script(script)
 
-    def instantiateChat(self,chatId):
+    def instantiate_chat(self,chatId):
         """Returns a :class:`Chat` class
 
         :param chatId: Chat identification
@@ -160,14 +160,14 @@ class WhaPy:
         return Chat(self._driver, chatId)
 
     #Set bot's status
-    def setStatus(self, status):
+    def set_status(self, status):
         """Sets bot status
         :param status: A string containing the new status
         """
         self._driver.execute_script("Store.Status.setMyStatus(" + status + ")")
         
     #Leaves a group
-    def leaveGroup(self, chatId):
+    def leave_group(self, chatId):
         """Leaves a group
         :param chatId: Chat identification
         """

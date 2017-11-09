@@ -6,10 +6,10 @@ whatsapp = whapy.WhaPy(whapy.Browser.firefox)
 async def on_message(chat, messages):
     print("New messages arrived: ")
     for i in range(0,len(messages)):
-        if not messages[i].isMedia():
-            print(messages[i].getContent())
-            if messages[i].getContent() == "@who":
-                chat.sendMessage("are you?")
+        if not messages[i].is_media():
+            print(messages[i].get_content())
+            if messages[i].get_content() == "@who":
+                chat.send_message("are you?")
 
 @whatsapp.event
 async def on_ready():

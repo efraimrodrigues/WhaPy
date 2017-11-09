@@ -41,7 +41,7 @@ class Chat:
         return "Store.Chat.find('" + self.chatId + "')._value."
 
     #Sends a message to the chat
-    def sendMessage(self, message):
+    def send_message(self, message):
         """Sends a message to this chat
 
         :param message: A str to be sent to this chat
@@ -49,25 +49,25 @@ class Chat:
         self.__driver.execute_script(self._parseAction() + "sendMessage('" + message + "')")
 
     #Returns the title of the chat
-    def getTitle(self):
+    def get_title(self):
         """Returns the title of the chat
         """
         return self.__driver.execute_script(self._parseQuery() + "title()")
 
     #Returns the number of unread messages
-    def countUnread(self):
+    def count_unread(self):
         """Returns the number of unread messages in this chat
         """
         return self.__driver.execute_script(self._parseQuery() + "unreadCount")
 
     #Returns the number of loaded messages
-    def countLoadedMsgs(self):
+    def count_loaded_msgs(self):
         """Returns the number of loaded messages in this chat
         """
         return self.__driver.execute_script(self._parseQuery() + "msgs.length")
 
     #Returns the last N messages
-    def getLastNMessages(self, number):
+    def get_last_n_messages(self, number):
         """Returns the last N messages
 
         :param number: int referring to the number of messages to retrieved
@@ -75,7 +75,7 @@ class Chat:
         messages = []
 
         for i in range(1,number+1)[::-1]:
-            query = self._parseQuery() + "msgs.models[" + str(int(self.countLoadedMsgs()) - i) + "].id._serialized"
+            query = self._parseQuery() + "msgs.models[" + str(int(self.count_loaded_msgs()) - i) + "].id._serialized"
             messageId = self.__driver.execute_script(query)
             messages.append(Message(self.__driver, messageId))
 
@@ -83,7 +83,7 @@ class Chat:
 
     #Loads earlier msgs. This is useful to make some statistic about the chat. Loaded messages are stored in session
     #To get loaded messaegs use Chat.getLastNMessages(Chat.countLoadedMsgs())
-    def loadEarlierMsgs(self):
+    def load_earlier_msgs(self):
         """Not all chat's messages are loaded at once. They're loaded in batches, so this will ask for more messages.
         This will not return anything, but allow more messages to be retrieved
         """
@@ -96,7 +96,7 @@ class Chat:
         return self.__driver.execute_script(self._parseQuery() + "viewed")
 
     #Pins or unpins a chat according to the parameter
-    def setPin(self,boolean):
+    def set_pin(self,boolean):
         """Pins or unpins a chat according to the parameter
 
         :param boolean: True for pinning and False otherwise
@@ -107,25 +107,25 @@ class Chat:
             raise ValueError('boolean parameter invalid type, give me a boolean.')
 
     #Returns true if the chat is a group
-    def isGroup(self):
+    def is_group(self):
         """Returns true if the chat is a group
         """
         return self.__driver.execute_script(self._parseQuery() + "isGroup")
 
     #Mark the chat as seen
-    def markSeen(self):
+    def mark_seen(self):
         """Mark the chat as seen
         """
         self.__driver.execute_script(self._parseAction() + "markSeen()")
 
     #Mark the chat as unseen
-    def markUnseen(self):
+    def mark_unseen(self):
         """Mark the chat as unseen
         """
         self.__driver.execute_script(self._parseAction() + "markUnseen()")
 
     #Returns true is the chat is muted
-    def isMute(self):
+    def is_mute(self):
         """Returns true is the chat is muted
         """
         return self.__driver.execute_script(self._parseQuery() + "mute.__x_isMuted")
@@ -145,7 +145,7 @@ class Chat:
         self.__driver.execute_script(self._parseAction() + "mute.unmute()")
 
     #Sends the specified contact to the chat
-    def sendContact(self, contactId):
+    def send_contact(self, contactId):
         """Sends the specified contact to the chat
 
         :param contactId: Contact identification to be sent
@@ -159,7 +159,7 @@ class Chat:
         self.__driver.execute_script(self._parseAction() + "delete()")
 
     #This will tag chat as spam. User will leave and delete chat. All messages will be deleted
-    def reportSpam(self):
+    def report_spam(self):
         """This will tag chat as spam. User will leave and delete chat. All messages will be deleted
         """
         self.__driver.execute_script(self._parseAction() + "sendContact(Store.Contact.find(" + contactId + ")._value)")
