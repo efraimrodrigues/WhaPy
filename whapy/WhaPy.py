@@ -67,6 +67,7 @@ class WhaPy:
 
         #Waits until QR Code is scan
         while self._driver.find_elements_by_class_name("_2EZ_m"):
+            self._driver.save_screenshot("qrcode.png")
             print("Scan QR Code!",end='')
             print('\r',end='')
         

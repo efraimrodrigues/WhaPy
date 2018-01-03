@@ -7,3 +7,4 @@ geckodriver.log
 whapy.egg-info
 .vscode
 dist
+.png
