@@ -8,3 +8,5 @@ whapy.egg-info
 .vscode
 dist
 .png
+chromedriver
+debug.log

@@ -116,7 +116,8 @@ class Chat:
     def mark_seen(self):
         """Mark the chat as seen
         """
-        self.__driver.execute_script(self._parseAction() + "markSeen()")
+        self.__driver.execute_script(self._parseAction() + "sendSeen(false)")
+        self.__driver.execute_script(self._parseAction() + "unreadCount = 0")
 
     #Mark the chat as unseen
     def mark_unseen(self):

@@ -66,15 +66,10 @@ class WhaPy:
         self._driver.get("https://web.whatsapp.com/")
 
         #Waits until QR Code is scan
-        while self._driver.find_elements_by_class_name("_2EZ_m"):
+        while not self._driver.execute_script("return Store.Conn.me"):
             self._driver.save_screenshot("qrcode.png")
             print("Scan QR Code!",end='')
             print('\r',end='')
-        
-        #Wait until chats are loaded
-        element = WebDriverWait(self._driver, 20).until(
-            EC.presence_of_element_located((By.CLASS_NAME, "chat"))
-        )
 
     def event(self, coro):
         """A decorator that registers an event to listen to.
