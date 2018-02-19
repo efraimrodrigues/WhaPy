@@ -16,7 +16,7 @@ python3 -m pip install whapy
 ```py
 import whapy
 
-wap = whapy.WhaPy(whapy.Browser.firefox)
+wap = whapy.WhaPy(whapy.Browser.firefox, True)
 
 @wap.event
 async def on_message(chat, messages):
@@ -29,7 +29,7 @@ async def on_message(chat, messages):
 
 @wap.event
 async def on_ready():
-    print("Let's go!")
+    print("Logged in as " + wap.get_me())
 
 wap.run()
 ```

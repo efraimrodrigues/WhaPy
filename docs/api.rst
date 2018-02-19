@@ -49,11 +49,11 @@ This is an example of how to register an event: ::
 
 .. function:: on_ready()
 
-    Called after scanning QR Code and whatsapp page is ready. Chats and messages are filled up.
+    Triggered after scanning QR Code and whatsapp page is ready. Chats and messages are filled up.
 
 .. function:: on_message(chat, messages)
 
-    Called each time unread messages are detected. 
+    Triggered each time unread messages are detected. 
 
     :param chat: A :class:`Chat` of the chat which fired the event.
     :param messages: An array of :class:`Message`.

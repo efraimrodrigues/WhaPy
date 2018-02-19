@@ -32,8 +32,14 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 
+from selenium.webdriver.firefox.options import Options as FirefoxOptions
+from selenium.webdriver.chrome.options import Options as ChromeOptions
+
 import os
 import asyncio
+import tempfile
+import time
+from datetime import datetime
 
 from .Chat import Chat
 from .Message import Message
@@ -43,8 +49,11 @@ class WhaPy:
     """Represents the current whatsapp session.
 
     This class is intended to give a python interface to interact with whatsapp web.
+
+    :param browser: A enumeration of the type :class:`Browser`.
+    :param headless: A boolean indicating whether the browser should run on headless mode or not.
     """
-    def __init__(self,browser,loop=None):
+    def __init__(self,browser,headless,loop=None):
         try:
             self.script_path = os.path.dirname(os.path.abspath(__file__))
         except NameError:
@@ -53,9 +62,15 @@ class WhaPy:
         self.loop = asyncio.get_event_loop()
 
         if browser == Browser.chrome:
-            self._driver = webdriver.Chrome()
+            options = ChromeOptions()
+            if headless:
+                options.add_argument("--headless")
+            self._driver = webdriver.Chrome(chrome_options = options)
         elif browser == Browser.firefox:
-            self._driver = webdriver.Firefox()
+            options = FirefoxOptions()
+            if headless:
+                options.add_argument("--headless")
+            self._driver = webdriver.Firefox(firefox_options = options)
         elif browser == Browser.safari:
             self._driver = webdriver.Safari()
         elif browser == Browser.edge:
@@ -65,11 +80,49 @@ class WhaPy:
 
         self._driver.get("https://web.whatsapp.com/")
 
+        control = 1
+
         #Waits until QR Code is scan
         while not self._driver.execute_script("return Store.Conn.me"):
-            self._driver.save_screenshot("qrcode.png")
-            print("Scan QR Code!",end='')
-            print('\r',end='')
+            if not "Click to reload QR code" in self._driver.page_source:
+                if control == 2:
+                    print("")
+                    control = 1
+
+                print("[" + str(datetime.now().strftime("%I:%M:%S")) + "]: Scan QR Code!",end='')
+                print('\r',end='')
+            
+            if "Click to reload QR code" in self._driver.page_source:
+                if control == 1:
+                    print("")
+                    control = 2
+
+                print("[" + str(datetime.now().strftime("%I:%M:%S")) + "]: Waiting for click to reload QR code!",end='')
+                print('\r',end='')
+                WebDriverWait(
+                    self._driver, 60
+                ).until_not(EC.presence_of_element_located((By.LINK_TEXT, "Click to reload QR code")))
+                
+
+            time.sleep(0.1)
+
+    def get_me(self):
+        """Returns the logged in user's id
+        """
+        return self._driver.execute_script("return Store.Conn.me")
+
+    def get_qrcode(self):
+        """Returns the image source of the qr code. If qr code is not visible due inactivity, it will be reloaded automatically
+        """
+        if "Click to reload QR code" in self._driver.page_source:
+            self.reload_qrcode()
+        qrcode = self._driver.find_element_by_css_selector("img[alt=\"Scan me!\"]")
+        return qrcode.get_attribute("src")
+
+    def reload_qrcode(self):
+        """Clicks on reload qr code button to reload the once hidden qr code
+        """
+        self._driver.find_element_by_css_selector("img[alt=\"Scan me!\"]").click()
 
     def event(self, coro):
         """A decorator that registers an event to listen to.
@@ -105,6 +158,8 @@ class WhaPy:
 
             if has_unread:
                 yield from self._parse_message()
+            
+            time.sleep(0.1)
 
     def run(self):
         """Starts listening to events
